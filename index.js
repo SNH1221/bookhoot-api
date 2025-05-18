@@ -19,7 +19,7 @@ app.post('/getbook', async (req, res) => {
 
     try {
         const response = await axios.get(FIREBASE_URL);
-        const books = response.data;
+        const books = response.data.data;
 
         for (let key in books) {
             if (books[key].book_id == book_id) {
