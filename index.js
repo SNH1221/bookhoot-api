@@ -22,7 +22,7 @@ app.post('/getbook', async (req, res) => {
         const books = response.data;
 
         for (let key in books) {
-            if (books[key].book_id == book_id) {
+            if (String (books[key].book_id) == String (book_id)) {
                 return res.json({ success: true, book: books[key] });
             }
         }
