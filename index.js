@@ -13,7 +13,22 @@ app.get('/', (req, res) => {
     res.send('BookHoot API is running');
 });
 
-// POST route to get book details by book_id
+// ✅ NEW: GET route for book list (for dashboard)
+app.get('/getbook', async (req, res) => {
+    try {
+        const response = await axios.get(FIREBASE_URL);
+        const books = response.data;
+
+        res.json({
+            success: true,
+            data: books
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
+// ✅ Existing: POST route to get book by ID
 app.post('/getbook', async (req, res) => {
     const { book_id } = req.body;
 
@@ -22,7 +37,7 @@ app.post('/getbook', async (req, res) => {
         const books = response.data;
 
         for (let key in books) {
-            if (String (books[key].book_id) == String (book_id)) {
+            if (String(books[key].book_id) === String(book_id)) {
                 return res.json({ success: true, book: books[key] });
             }
         }
